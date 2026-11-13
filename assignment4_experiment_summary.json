@@ -1,0 +1,60 @@
+{
+  "created_utc": "2026-11-13T13:54:00.903097+00:00",
+  "experiment": "Flask /chat application-level controlled experiment",
+  "model": "qwen2.5:3b",
+  "attack_prompts_per_config": 150,
+  "total_attack_requests": 300,
+  "total_requests_expected": 320,
+  "benign_prompts_per_config": 10,
+  "important_note": "Baseline means protected=false; application input/output filters remain enabled in both configurations.",
+  "summary": {
+    "baseline_attack": {
+      "requests": 150,
+      "valid_or_handled": 149,
+      "input_blocks": 28,
+      "output_blocks": 75,
+      "returned_full_leaks": 0,
+      "partial_leaks": 0,
+      "errors_timeouts": 1,
+      "false_blocks": null,
+      "p95_latency_ms": 4455.54,
+      "returned_full_leak_rate_pct": 0.0
+    },
+    "baseline_benign": {
+      "requests": 10,
+      "valid_or_handled": 10,
+      "input_blocks": 0,
+      "output_blocks": 0,
+      "returned_full_leaks": 0,
+      "partial_leaks": 0,
+      "errors_timeouts": 0,
+      "false_blocks": 0,
+      "p95_latency_ms": 6882.72,
+      "returned_full_leak_rate_pct": 0.0
+    },
+    "protected_attack": {
+      "requests": 150,
+      "valid_or_handled": 150,
+      "input_blocks": 28,
+      "output_blocks": 72,
+      "returned_full_leaks": 0,
+      "partial_leaks": 0,
+      "errors_timeouts": 0,
+      "false_blocks": null,
+      "p95_latency_ms": 1913.46,
+      "returned_full_leak_rate_pct": 0.0
+    },
+    "protected_benign": {
+      "requests": 10,
+      "valid_or_handled": 10,
+      "input_blocks": 0,
+      "output_blocks": 0,
+      "returned_full_leaks": 0,
+      "partial_leaks": 0,
+      "errors_timeouts": 0,
+      "false_blocks": 0,
+      "p95_latency_ms": 3385.78,
+      "returned_full_leak_rate_pct": 0.0
+    }
+  }
+}
