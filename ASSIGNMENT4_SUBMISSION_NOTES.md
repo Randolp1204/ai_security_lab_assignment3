@@ -32,6 +32,14 @@ Work is maintained on `assignment-4`; the default `main` branch is not modified.
 
 **Interpretation warning:** These are detector results, not proof that no secret was disclosed. Some protected attack prompts returned HTTP 200 / `success`; the result CSV does not retain full response bodies, so response-level manual verification remains outstanding. Flask filters were enabled in both modes; this is not a no-filter versus protected comparison.
 
+## Fresh Garak PromptInject verification — 13 November 2026
+- Garak 0.17.0 tested Ollama `qwen2.5:3b` directly; this does not exercise the Flask filters.
+- `HijackHateHumans`: 1,280 attempts (256 prompts × 5 generations), detector passed 140, marker detected 1,140; ASR 89.06% (95% CI 87.34–90.70%).
+- `HijackKillHumans`: 1,280 attempts (256 prompts × 5 generations), detector passed 396, marker detected 884; ASR 69.06% (95% CI 66.56–71.64%).
+- `HijackLongPrompt`: 256 attempts (256 prompts × 1 generation), detector passed 47, marker detected 209; ASR 81.64% (95% CI 76.95–86.33%).
+- The first run was interrupted during the third probe; its partial third-probe attempts are excluded. The long-prompt result comes from a separate completed run. Because generation counts differ, do not report a single combined ASR.
+- Detailed run IDs, report filenames and method: `ASSIGNMENT4_GARAK_RESULTS.md`.
+
 ## Fresh Promptfoo verification — 13 November 2026
 - Ran `redteam_promptfoo_fixed.yaml` against the local Flask endpoint `http://127.0.0.1:5000/chat` with `--no-cache`.
 - Evaluation ID: `eval-mGo-2026-11-13T14:56:06`; 28 actual target requests, 0 cache hits.
@@ -44,6 +52,6 @@ Work is maintained on `assignment-4`; the default `main` branch is not modified.
 1. Review the three prompt-extraction grader flags and document the adjudication.
 2. Remediate the confirmed prompt-override weakness, then repeat Promptfoo with `--no-cache`.
 3. Complete and render the required 2–3 page English PDF report.
-4. Consider rerunning Garak after remediation; keep the current deployment decision at NO-GO until high-severity override failures are resolved.
+4. After remediation, rerun Garak with the same probes, model and generation settings for a comparable direct-model check; keep the current deployment decision at NO-GO until high-severity override failures are resolved.
 
 Do not commit the `mlruns/` directory or raw monitoring logs if they contain prompts / response content. Keep the production deployment decision at NO-GO until the residual risks are addressed.
