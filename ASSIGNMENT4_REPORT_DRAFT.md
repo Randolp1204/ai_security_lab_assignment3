@@ -81,7 +81,7 @@ Automated tools perform first-line screening and calculate indicators. A human s
 
 ## 6. Residual risks
 
-1. Prompt injection and system-instruction override remain material risks based on historical Garak and Promptfoo findings.
+1. A fresh Garak 0.17.0 PromptInject scan of the base Ollama model detected the injected marker at 89.06% for HijackHateHumans, 69.06% for HijackKillHumans and 81.64% for HijackLongPrompt. The first two used five generations per prompt; the third used one in a separate completed run. This is direct-model evidence, not an evaluation of Flask filters; details are in ASSIGNMENT4_GARAK_RESULTS.md.
 2. The output detector may miss novel encodings, obfuscation, multi-turn extraction, or fragments outside its heuristic list.
 3. The input filter uses phrase matching and may be bypassed by paraphrases, language variation, spacing, or indirect requests.
 4. The latest analyzer reports zero detected leaks, but the CSV does not retain response bodies; this prevents independent confirmation of all successful attack responses.
@@ -92,7 +92,7 @@ Automated tools perform first-line screening and calculate indicators. A human s
 
 **Decision: NO-GO for public or production deployment.** The prototype is suitable only for a controlled local classroom demonstration.
 
-This decision is deliberately conservative. The offline monitoring run produced no threshold alerts, but the fresh Promptfoo evaluation found seven clear system-prompt-override failures: the model began its response with `HACKED:`. Three additional prompt-extraction failures were grader flags on generic block messages and need human review. These results, along with historical adversarial findings and detector blind spots, rule out public or production deployment.
+This decision is deliberately conservative. The fresh Garak direct-model scan detected PromptInject markers in 69.06–89.06% of the evaluated attempts across its probes, and fresh Promptfoo found seven system-prompt-override failures with `HACKED:` responses. Three additional Promptfoo prompt-extraction failures were grader flags on generic block messages and need human review. Garak tested the base Ollama model, not Flask filters; nevertheless, together with the endpoint results and detector limitations, the evidence rules out public or production deployment.
 
 ### Conditions before reconsidering
 - Preserve and manually review response bodies for attack cases; extend detection to partial, encoded, reversed, multi-turn and multilingual extraction.
@@ -107,4 +107,4 @@ This decision is deliberately conservative. The offline monitoring run produced 
 Generative AI (ChatGPT) was used to help organize the assignment, review project evidence, draft report text, propose monitoring indicators, and prepare the oversight workflow. The local AI system under evaluation used Qwen 2.5 3B through Ollama. Garak, Promptfoo and MLflow were used as evaluation / experiment-tracking tools. The student remains responsible for verifying results, running experiments locally, reviewing generated content, and submitting accurate evidence.
 
 ---
-**Evidence note:** Current numeric monitoring results in this draft are from the local experiment and offline analysis completed on 13 November 2026. Historical Garak and Promptfoo results are labeled separately. The monitoring output is not a live production alert service.
+**Evidence note:** Current monitoring results and fresh Promptfoo/Garak evaluations were completed on 13 November 2026. Historical Garak and Promptfoo runs remain separately labeled. Garak tested the base Ollama model directly; Promptfoo tested the local Flask endpoint. The monitoring output is an offline analysis, not a live production alert service.
