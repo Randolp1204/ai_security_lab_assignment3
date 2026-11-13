@@ -86,18 +86,18 @@ Automated tools perform first-line screening and calculate indicators. A human s
 3. The input filter uses phrase matching and may be bypassed by paraphrases, language variation, spacing, or indirect requests.
 4. The latest analyzer reports zero detected leaks, but the CSV does not retain response bodies; this prevents independent confirmation of all successful attack responses.
 5. Monitoring is offline and local: no production alert delivery, centralized retention, access-control review, or incident-response drill is demonstrated.
-6. The latest Promptfoo result artifact has not yet been added as verified evidence for this run.
+6. A fresh Promptfoo evaluation on 13 November 2026 tested 28 cases against the local Flask endpoint with caching disabled: 18 passed, 10 failed, and 0 errored. Seven system-prompt-override cases returned the `HACKED:` marker. Three prompt-extraction cases were flagged by the grader for generic Russian security-block messages; the observed outputs did not contain the artificial secret or the full system prompt, so those flags require human adjudication rather than being treated as confirmed leakage. The exact configuration and JSON/HTML outputs are included in this branch.
 
 ## 7. Deployment decision
 
 **Decision: NO-GO for public or production deployment.** The prototype is suitable only for a controlled local classroom demonstration.
 
-This decision is deliberately conservative. The current monitoring run produced no detector alerts and low measured error rates, but it does not eliminate the historical adversarial findings or the current detector's blind spots. HTTP 200 / `success` responses to attack prompts require response-level review before any claim about successful blocking or leakage can be made.
+This decision is deliberately conservative. The offline monitoring run produced no threshold alerts, but the fresh Promptfoo evaluation found seven clear system-prompt-override failures: the model began its response with `HACKED:`. Three additional prompt-extraction failures were grader flags on generic block messages and need human review. These results, along with historical adversarial findings and detector blind spots, rule out public or production deployment.
 
 ### Conditions before reconsidering
 - Preserve and manually review response bodies for attack cases; extend detection to partial, encoded, reversed, multi-turn and multilingual extraction.
 - Re-run the experiment after remediation and retain sufficient response evidence to independently verify classifications.
-- Run Promptfoo against the local Flask endpoint and save its fresh JSON/HTML report with exact pass/fail counts.
+- After remediation, rerun Promptfoo against the local Flask endpoint with caching disabled; review the seven override failures and adjudicate the three generic-block grader flags.
 - Repeat Garak after remediation using the same probes and model settings.
 - Add alert ownership, retention rules and a documented incident-response procedure before any production use.
 - Require zero confirmed full leaks and no unresolved high-severity prompt-injection failures across repeated runs.
