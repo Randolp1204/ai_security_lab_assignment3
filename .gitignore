@@ -1,3 +1,6 @@
 __pycache__/
 *.py[cod]
 monitoring_logs.jsonl
+mlruns/
+node_modules/
+.venv/
