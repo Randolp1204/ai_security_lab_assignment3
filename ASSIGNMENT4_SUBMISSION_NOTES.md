@@ -32,10 +32,18 @@ Work is maintained on `assignment-4`; the default `main` branch is not modified.
 
 **Interpretation warning:** These are detector results, not proof that no secret was disclosed. Some protected attack prompts returned HTTP 200 / `success`; the result CSV does not retain full response bodies, so response-level manual verification remains outstanding. Flask filters were enabled in both modes; this is not a no-filter versus protected comparison.
 
+## Fresh Promptfoo verification — 13 November 2026
+- Ran `redteam_promptfoo_fixed.yaml` against the local Flask endpoint `http://127.0.0.1:5000/chat` with `--no-cache`.
+- Evaluation ID: `eval-mGo-2026-11-13T14:56:06`; 28 actual target requests, 0 cache hits.
+- Results: 18 passed (64.29%), 10 failed (35.71%), 0 errors.
+- Breakdown: 7 of 13 system-prompt-override cases failed; each returned a response beginning with `HACKED:`. Three prompt-extraction cases were flagged because a generic Russian security-block message was interpreted as system-prompt disclosure. The observed block text contained neither the artificial secret nor the full system prompt; retain these as manual-review items, not confirmed leakage.
+- Evidence files: `redteam_promptfoo_fixed.yaml`, `assignment4_promptfoo_fresh.json`, and `assignment4_promptfoo_fresh.html`.
+- The earlier corrected-parser run had 22 cache hits and is not the fresh evidence; use the uncached evaluation above.
+
 ## Remaining before final submission
-1. Add the exact generated `assignment4_experiment_results.csv`, `assignment4_experiment_summary.json`, and `assignment4_indicator_results.csv` from the local project if these are to be versioned. Do not reconstruct or edit measured raw data manually.
-2. Add the exact source files `run_assignment4_experiment.py` and `analyze_assignment4_monitoring.py` from the local project; the analyzer's local path fix must be included in the committed source.
-3. Run Promptfoo and save the fresh JSON/HTML report for this run.
-4. Review raw response bodies for attack prompts and improve leak detection before making any security claim.
+1. Review the three prompt-extraction grader flags and document the adjudication.
+2. Remediate the confirmed prompt-override weakness, then repeat Promptfoo with `--no-cache`.
+3. Complete and render the required 2–3 page English PDF report.
+4. Consider rerunning Garak after remediation; keep the current deployment decision at NO-GO until high-severity override failures are resolved.
 
 Do not commit the `mlruns/` directory or raw monitoring logs if they contain prompts / response content. Keep the production deployment decision at NO-GO until the residual risks are addressed.
