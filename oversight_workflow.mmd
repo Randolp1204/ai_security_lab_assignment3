@@ -1,0 +1,13 @@
+flowchart LR
+    A[Local Qwen model + Flask API] --> B[Garak and Promptfoo tests]
+    B --> C[Monitoring logs and metrics]
+    C --> D{Threshold breached?}
+    D -- Yes --> E[Immediate alert and test stop]
+    D -- No --> F[Routine monitoring summary]
+    E --> G[Human security owner review]
+    F --> G
+    G --> H{Deployment decision}
+    H -->|GO| I[Controlled release with monitoring]
+    H -->|CONDITIONAL GO| J[Limited pilot and remediation deadline]
+    H -->|NO-GO| K[Block release; fix and retest]
+    K --> B
